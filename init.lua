@@ -19,6 +19,8 @@ obj.defaultHotkeys = {
     go_full  = { { "ctrl", "alt" }, "space" },
     switch_window_right = { { "ctrl", "alt" }, "tab" },
     switch_window_left = { { "shift", "ctrl", "alt" }, "tab" },
+    -- hard_switch_window_right = { { "ctrl", "alt" }, "tab" },
+    -- hard_switch_window_left = { { "shift", "ctrl", "alt" }, "tab" },
 }
 
 --- moving
@@ -65,7 +67,7 @@ function obj:go_right()
         win:setFrame(winframe)
     elseif winframe.w > screenframe.w / 2 then -- resize to half w
         print("resize right - winframe.w:" .. winframe.w .. " to " .. screenframe.w / 2)
-        winframe.x = screenframe.w / 2
+        winframe.x = screenframe.w / 2 -- TODO  + screenframe.x ??
         winframe.w = screenframe.w / 2     -- halve the window
         win:setFrame(winframe)
     elseif winframe.h < screenframe.h then -- if already at 0, maximize vertically
@@ -188,17 +190,24 @@ end
 -- https://www.hammerspoon.org/docs/hs.window.html#focus
 -- https://www.hammerspoon.org/docs/hs.window.html#tabCount
 -- https://www.hammerspoon.org/docs/hs.window.html#focusTab
-function obj:hard_switch_window()
+function obj:hard_switch_window(direction)
     local wins = hs.window.visibleWindows()
     local focused = hs.window.focusedWindow()
-    local focusnext = false
+    local shift = 1
+    if direction == "left" then
+        shift = -1
+    end
     for index, win in ipairs(wins) do 
-        if focusnext then
-            win:focus()
-            break
-        end
         if win == focused then
-            focusnext = true
+            local targetid = index + shift
+            if targetid > #wins then -- lua index are 1 - len
+                targetid = 1
+            elseif targetid == 0 then
+                targetid = #wins
+            end
+            local tofocus = wins[targetid]
+            tofocus:focus()
+            break
         end
     end
 end
@@ -213,6 +222,8 @@ function obj:bindHotkeys(mapping)
         go_full = function() self:go_full() end,
         switch_window_right = function() self:switch_window("right") end,
         switch_window_left = function() self:switch_window("left") end,
+        hard_switch_window_right = function() self:hard_switch_window("right") end,
+        hard_switch_window_left = function() self:hard_switch_window("left") end,
     }
     hs.spoons.bindHotkeysToSpec(spec, mapping)
     return self
