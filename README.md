@@ -1,8 +1,10 @@
 # MYOWM.spoon 
 
-My Own Windows Mover
+## My Own Windows Mover
 
-A [hammerspoon](https://www.hammerspoon.org/) spoon to snap and move windows with hotkeys, inspired by [rectangle](https://rectangleapp.com/), using the current position & size of the windows to decide how to move/resize it.
+A [hammerspoon](https://www.hammerspoon.org/) spoon to snap and move windows with hotkeys, inspired by [rectangle](https://rectangleapp.com/). 
+
+It uses the current position & size of the window to decide how to move/resize it.
 
 Fore exemple the 'left' move will:
 - snap the windows left, keeping the right border in place - hence widening the windows
