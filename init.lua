@@ -1,3 +1,6 @@
+-- Kyrlian 2024
+-- https://github.com/kyrlian/MYOWM.spoon
+
 local obj = {}
 obj.__index = obj
 
