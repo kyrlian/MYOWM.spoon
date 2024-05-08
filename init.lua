@@ -67,7 +67,7 @@ function obj:go_right()
         win:setFrame(winframe)
     elseif winframe.w > screenframe.w / 2 then -- resize to half w
         print("resize right - winframe.w:" .. winframe.w .. " to " .. screenframe.w / 2)
-        winframe.x = screenframe.w / 2 -- TODO  + screenframe.x ??
+        winframe.x = screenframe.x + screenframe.w / 2 -- TODO -- check fix (added screenframe.x + )
         winframe.w = screenframe.w / 2     -- halve the window
         win:setFrame(winframe)
     elseif winframe.h < screenframe.h then -- if already at 0, maximize vertically
@@ -124,7 +124,7 @@ function obj:go_down()
     elseif winframe.y < screenframe.h / 2 then -- resize to half h (+20 for dock)
         -- Note : the dock at the bottom messes up win.h, to I'm snapping to bottom with y2 again
         print("resize down - winframe.y:" .. winframe.y .. " to " .. screenframe.h / 2)
-        winframe.y = screenframe.h / 2     -- move top to mid screen
+        winframe.y = screenframe.y + screenframe.h / 2     -- move top to mid screen -- TODO -- check fix (added screenframe.y + )
         winframe.y2 = screenframe.y2       -- snap down (h/2 doesnt work because of dock)
         win:setFrame(winframe)
     elseif winframe.w < screenframe.w then -- if already at 0, maximize horizontally
