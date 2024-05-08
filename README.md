@@ -4,9 +4,11 @@
 
 A [hammerspoon](https://www.hammerspoon.org/) spoon to snap and move windows with hotkeys, inspired by [rectangle](https://rectangleapp.com/). 
 
+See also [MYOWM-AutoHotkey](https://github.com/kyrlian/MYOWM-AutoHotkey) to use on windows with [AutoHotkey](https://www.autohotkey.com/).
+
 It uses the current position & size of the window to decide how to move/resize it.
 
-Fore exemple the 'left' move will:
+For exemple the 'left' move will:
 - snap the windows left, keeping the right border in place - hence widening the windows
 - if already snapped left, will resize to half screen width
 - if already snapped left and less of half screen width, will snap to top and maximize vertically
@@ -14,13 +16,15 @@ Fore exemple the 'left' move will:
 
 ## Install
 
-Clone:
+- Get [hammerspoon](https://www.hammerspoon.org/)
+
+- Clone:
 
 ```sh
 git clone https://github.com/kyrlian/MYOWM.spoon ~/.hammerspoon/Spoons/MYOWM.spoon
 ```
 
-Add to `~/.hammerspoon/init.lua`:
+- Add to `~/.hammerspoon/init.lua`:
 
 ```lua
 MYOWM = hs.loadSpoon("MYOWM")
