@@ -20,10 +20,10 @@ obj.defaultHotkeys = {
     go_up    = { { "ctrl", "alt" }, "up" },
     go_down  = { { "ctrl", "alt" }, "down" },
     go_full  = { { "ctrl", "alt" }, "space" },
-    switch_window_right = { { "ctrl", "alt" }, "tab" },
-    switch_window_left = { { "shift", "ctrl", "alt" }, "tab" },
-    -- hard_switch_window_right = { { "ctrl", "alt" }, "tab" },
-    -- hard_switch_window_left = { { "shift", "ctrl", "alt" }, "tab" },
+    -- switch_window_right = { { "ctrl", "alt" }, "tab" },
+    -- switch_window_left = { { "shift", "ctrl", "alt" }, "tab" },
+    hard_switch_window_right = { { "ctrl", "alt" }, "tab" },
+    hard_switch_window_left = { { "shift", "ctrl", "alt" }, "tab" },
 }
 
 --- moving
@@ -181,9 +181,9 @@ end
 function obj:switch_window(direction)
     local switcher_space = hs.window.switcher.new(hs.window.filter.new():setCurrentSpace(true):setDefaultFilter{}) -- include minimized/hidden windows, current Space only
     if direction == "right" then
-        switcher_space:next() 
+        switcher_space:next()
     else
-        switcher_space:previous() 
+        switcher_space:previous()
     end
 end
 
@@ -196,21 +196,35 @@ end
 function obj:hard_switch_window(direction)
     local wins = hs.window.visibleWindows()
     local focused = hs.window.focusedWindow()
+    print("Focused: " .. focused:id() .. " - " .. focused:title() )
+
     local shift = 1
     if direction == "left" then
         shift = -1
     end
-    for index, win in ipairs(wins) do 
+
+    -- for i=1,#wins do
+    --     local w = wins[i]
+    --     print("DEBUG:hard_switch_window:wins:" .. w:id()  .. " - " .. w:title() )
+    -- end
+
+    for index, win in ipairs(wins) do
         if win == focused then
-            local targetid = index + shift
-            if targetid > #wins then -- lua index are 1 - len
-                targetid = 1
-            elseif targetid == 0 then
-                targetid = #wins
+            for skip=1,3 do
+                local targetid = index + shift * skip
+                if targetid > #wins then -- lua index are 1 - len
+                    targetid = 1
+                elseif targetid == 0 then
+                    targetid = #wins
+                end
+                local tofocus = wins[targetid]
+                if tofocus:id() ~= 0 then -- skip windows with id=0
+                    -- print("Focusing on: index:" .. targetid .. ", id:" .. tofocus:id() .. " - " .. tofocus:title() )
+                    print("Focusing on: " .. tofocus:id() .. " - " .. tofocus:title() )
+                    tofocus:focus()
+                    break
+                end
             end
-            local tofocus = wins[targetid]
-            tofocus:focus()
-            break
         end
     end
 end
