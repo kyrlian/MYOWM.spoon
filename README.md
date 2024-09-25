@@ -39,3 +39,25 @@ MYOWM:bindHotkeys({
 })
 ]]
 ```
+
+## Other fun stuff
+
+Reload shortcut
+
+```lua
+---reloader
+hs.hotkey.bind({ "ctrl", "alt" }, "r", function()
+    hs.reload()
+end)
+hs.alert.show("Config loaded") -- put the alert outside the reload function
+```
+
+Type my email
+
+```lua
+-- https://www.hammerspoon.org/docs/hs.eventtap.html#keyStrokes
+hs.hotkey.bind({ "ctrl", "alt" }, "m", function()
+    hs.eventtap.keyStrokes("me@home.com")
+    hs.alert.show("Typed!")
+end)
+```
